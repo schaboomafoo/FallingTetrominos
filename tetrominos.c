@@ -3,6 +3,8 @@
 #include <ncurses.h>
 #include <unistd.h>
 
+void titleScreen();
+
 #define DELAY 50000
 
 int main() {
@@ -18,6 +20,8 @@ int main() {
 
     //Game state variables
     int x = 10, y = 5;
+
+    titleScreen();
 
     while (1) {
         clear(); //Clear screen for next frame
@@ -52,4 +56,35 @@ int main() {
 
     endwin(); //End curses mode
     return 0;
+}
+
+
+void titleScreen(){
+    int ch;
+
+    while (1) {
+        clear();
+        mvprintw(1,1, "  ______    _ _ _");
+        mvprintw(2,1, " |  ____|  | | (_)");
+        mvprintw(3,1, " | |__ __ _| | |_ _ __   __ _");
+        mvprintw(4,1, " |  __/ _` | | | | '_ \\ / _` |");
+        mvprintw(5,1, " | | | (_| | | | | | | | (_| |");
+        mvprintw(6,1," |_|__\\__,_|_|_|_|_| |_|\\__, |      _");
+        mvprintw(7,1, " |__   __| | |           __/ |     (_)");
+        mvprintw(8,1, "    | | ___| |_ _ __ ___|___/_ ___  _ _ __   ___  ___");
+        mvprintw(9,1, "    | |/ _ \\ __| '__/ _ \\| '_ ` _ \\| | '_ \\ / _ \\/ __|");
+        mvprintw(10,1, "    | |  __/ |_| | | (_) | | | | | | | | | | (_) \\__ \\");
+        mvprintw(11,1, "    |_|\\___|\\__|_|  \\___/|_| |_| |_|_|_| |_|\\___/|___/");
+        mvprintw(13,1, "Use wasd to move");
+        mvprintw(14,1, "Use , and . to rotate ccw and cw respectively");
+        mvprintw(16,1, "Press k or l to pause");
+        mvprintw(17,1, "Press any gameplay button to start...");
+
+        refresh();
+        ch = getch();
+        if (ch == KEY_LEFT || ch == KEY_RIGHT || ch == KEY_DOWN || ch == KEY_UP)
+            break;
+        
+        usleep(DELAY);
+    }
 }
