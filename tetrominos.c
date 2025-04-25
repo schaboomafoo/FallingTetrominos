@@ -4,6 +4,7 @@
 
 #include <ncurses.h>
 #include <unistd.h>
+#include <locale.h>
 
 void titleScreen();
 void initColors();
@@ -11,7 +12,9 @@ void initColors();
 #define DELAY 50000
 
 int main() {
+    setlocale(LC_ALL, "");  //UTF-8
     int ch;
+
 
     //Init ncurses
     initscr();              //Start curses mode
@@ -29,7 +32,6 @@ int main() {
 
 
 
-
     //gameplay loop
     while (1) {
         clear(); //Clear screen for next frame
@@ -43,20 +45,35 @@ for(int i=0; i<40; i++){
 
         attron(COLOR_PAIR(8));
 
-        mvprintw(y+8, x+7, "\u2801 ");
+        mvprintw(y+8, x+7, "\u2805 ");
 
-
-        mvprintw(y, x, "⠃⡓ ");
-        mvprintw(y+1, x, "⠂  ");
+/* sample ascii blocks
+        mvprintw(y, x, "⠏⠉⠹");
+        mvprintw(y+1, x, "⠧⠤⠼");
 
         mvprintw(y+2, x, "⠃⡓ ");
         mvprintw(y+3, x, "⠂  ");
 
-        mvprintw(y+4, x, "⠃⡓ ");
-        mvprintw(y+5, x, "⠂  ");
+        mvprintw(y+4, x, "⠿⠏ ");
+        mvprintw(y+5, x, "⠏  ");
 
-        mvprintw(y+4, x+3, "⠃⡓ ");
-        mvprintw(y+5, x+3, "⠂  ");
+        mvprintw(y+4, x+3, "⠏  ");
+        mvprintw(y+5, x+3, "   ");
+*/
+        mvprintw(y, x, "⠏  ");
+        mvprintw(y+1, x, "   ");
+
+        mvprintw(y+2, x, "⠏  ");
+        mvprintw(y+3, x, "   ");
+
+        mvprintw(y+4, x, "⠏  ");
+        mvprintw(y+5, x, "   ");
+
+        mvprintw(y+4, x+3, "⠏  ");
+        mvprintw(y+5, x+3, "   ");
+
+
+            
 
 
         attroff(COLOR_PAIR(8));
