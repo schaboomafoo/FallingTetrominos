@@ -27,11 +27,39 @@ int main() {
 
     titleScreen();
 
+
+
+
+    //gameplay loop
     while (1) {
         clear(); //Clear screen for next frame
 
+/*
+for(int i=0; i<40; i++){
+    mvprintw(i+1,1,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+} for reference to see expected grid size */
+
         //Draw
-        mvprintw(y, x, ":D\nD:");
+
+        attron(COLOR_PAIR(8));
+
+        mvprintw(y+8, x+7, "\u2801 ");
+
+
+        mvprintw(y, x, "⠃⡓ ");
+        mvprintw(y+1, x, "⠂  ");
+
+        mvprintw(y+2, x, "⠃⡓ ");
+        mvprintw(y+3, x, "⠂  ");
+
+        mvprintw(y+4, x, "⠃⡓ ");
+        mvprintw(y+5, x, "⠂  ");
+
+        mvprintw(y+4, x+3, "⠃⡓ ");
+        mvprintw(y+5, x+3, "⠂  ");
+
+
+        attroff(COLOR_PAIR(8));
 
         refresh(); //Refresh screen
 
@@ -119,4 +147,5 @@ void initColors() {
     init_pair(5, COLOR_MAGENTA, -1);
     init_pair(6, COLOR_CYAN,    -1);
     init_pair(7, COLOR_WHITE,   -1);
+    init_pair(8, COLOR_WHITE, COLOR_BLUE);
 }
