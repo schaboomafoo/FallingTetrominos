@@ -1,9 +1,12 @@
 //gcc -o tetris tetrominos.c -lncurses;./tetris
+//directly inspires by Tetris on NES
+//few subtle changes like missing features, improved piece randomization, and altered rotation logic
 
 #include <ncurses.h>
 #include <unistd.h>
 
 void titleScreen();
+void initColors();
 
 #define DELAY 50000
 
@@ -12,6 +15,7 @@ int main() {
 
     //Init ncurses
     initscr();              //Start curses mode
+    initColors();           //Create color array
     noecho();               //Don't echo input chars
     cbreak();               //Disable line buffering
     curs_set(FALSE);        //Hide the cursor
@@ -62,23 +66,39 @@ int main() {
 void titleScreen(){
     int ch;
 
+    const char* lines[] = {
+        "  ______    _ _ _",
+        " |  ____|  | | (_)",
+        " | |__ __ _| | |_ _ __   __ _",
+        " |  __/ _` | | | | '_ \\ / _` |",
+        " | | | (_| | | | | | | | (_| |",
+        " |_|__\\__,_|_|_|_|_| |_|\\__, |      _",
+        " |__   __| | |           __/ |     (_)",
+        "    | | ___| |_ _ __ ___|___/_ ___  _ _ __   ___  ___",
+        "    | |/ _ \\ __| '__/ _ \\| '_ ` _ \\| | '_ \\ / _ \\/ __|",
+        "    | |  __/ |_| | | (_) | | | | | | | | | | (_) \\__ \\",
+        "    |_|\\___|\\__|_|  \\___/|_| |_| |_|_|_| |_|\\___/|___/",
+        "",
+        "Use wasd to move",
+        "Use , and . to rotate ccw and cw respectively",
+        "",
+        "Press k or l to pause",
+        "Press any gameplay button to start..."
+    };
+
+    int num_lines = sizeof(lines) / sizeof(lines[0]);
+
     while (1) {
-        clear();
-        mvprintw(1,1, "  ______    _ _ _");
-        mvprintw(2,1, " |  ____|  | | (_)");
-        mvprintw(3,1, " | |__ __ _| | |_ _ __   __ _");
-        mvprintw(4,1, " |  __/ _` | | | | '_ \\ / _` |");
-        mvprintw(5,1, " | | | (_| | | | | | | | (_| |");
-        mvprintw(6,1, " |_|__\\__,_|_|_|_|_| |_|\\__, |      _");
-        mvprintw(7,1, " |__   __| | |           __/ |     (_)");
-        mvprintw(8,1, "    | | ___| |_ _ __ ___|___/_ ___  _ _ __   ___  ___");
-        mvprintw(9,1, "    | |/ _ \\ __| '__/ _ \\| '_ ` _ \\| | '_ \\ / _ \\/ __|");
-        mvprintw(10,1,"    | |  __/ |_| | | (_) | | | | | | | | | | (_) \\__ \\");
-        mvprintw(11,1,"    |_|\\___|\\__|_|  \\___/|_| |_| |_|_|_| |_|\\___/|___/");
-        mvprintw(13,1, "Use wasd to move");
-        mvprintw(14,1, "Use , and . to rotate ccw and cw respectively");
-        mvprintw(16,1, "Press k or l to pause");
-        mvprintw(17,1, "Press any gameplay button to start...");
+
+        for (int i = 0; i < num_lines; i++) {
+            if (lines[i][0] != '\0') {
+                if(i<=10)
+                    attron(COLOR_PAIR((i % 7) + 1)); // cycle through color pairs 1–7
+                mvprintw(i + 1, 1, "%s", lines[i]);
+                if(i<=10)
+                    attroff(COLOR_PAIR((i % 7) + 1));
+            }
+        }
 
         refresh();
         ch = getch();
@@ -87,4 +107,16 @@ void titleScreen(){
         
         usleep(DELAY);
     }
+}
+
+void initColors() {
+    start_color();          //Start color mode
+    use_default_colors();   //For transparency
+    init_pair(1, COLOR_RED,     -1);
+    init_pair(2, COLOR_GREEN,   -1);
+    init_pair(3, COLOR_YELLOW,  -1);
+    init_pair(4, COLOR_BLUE,    -1);
+    init_pair(5, COLOR_MAGENTA, -1);
+    init_pair(6, COLOR_CYAN,    -1);
+    init_pair(7, COLOR_WHITE,   -1);
 }
